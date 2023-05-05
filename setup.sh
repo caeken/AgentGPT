@@ -17,11 +17,22 @@ else
   exit
 fi
 
+echo -n "Enter your URL (e.g., http://localhost:3000) or press Enter to continue without the URL: "
+read NEXTAUTH_URL
+
+if [[ $NEXTAUTH_URL == http://* || $NEXTAUTH_URL == https://* ]]; then
+  echo "Valid URL"
+else
+  NEXTAUTH_URL="http://localhost:3000"
+fi
+
+
+
 NEXTAUTH_SECRET=$(openssl rand -base64 32)
 
 ENV="NODE_ENV=development\n\
 NEXTAUTH_SECRET=$NEXTAUTH_SECRET\n\
-NEXTAUTH_URL=http://localhost:3000\n\
+NEXTAUTH_URL=$NEXTAUTH_URL\n\
 OPENAI_API_KEY=$OPENAI_API_KEY\n\
 DATABASE_URL=file:../db/db.sqlite\n"
 
